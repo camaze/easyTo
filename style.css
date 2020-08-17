@@ -1,0 +1,46 @@
+/* *删除所有边缘与填充，a的默认样式删除。 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+kbd {
+    border: 1px solid red;
+    width: 4em;
+    height: 4em;
+    display: inline-block;
+    text-transform: uppercase;
+    position: relative;
+}
+
+kbd>button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: none;
+    font-size: 10px;
+}
+
+kbd:hover>button {
+    display: inline-block;
+}
+
+main {
+    text-align: center;
+}
+
+#keyContainer {
+    display: inline-block;
+}
+
+#keyContainer>div:nth-child(2) {
+    margin-left: 2em;
+}
+
+#keyContainer>div:nth-child(3) {
+    margin-left: 3em;
+}
