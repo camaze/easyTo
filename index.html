@@ -52,7 +52,7 @@
             length: 3
         }
         hash = {
-            'q': 'qq.com',
+            'q': 'www.qq.com',
             'w': 'weibo.com',
             'z': 'zhihu.com',
             'h': 'www.hupu.com',
@@ -66,25 +66,36 @@
         // 遍历keys， 生成kbd标签
         index = 0
         while (index < keys['length']) {
-            div1 = document.createElement('div')
+            div1 = document.createElement('div') //三行
+            div1.className = 'row'
             row = keys[index]
             index2 = 0
             while (index2 < row['length']) {
                 keybd = document.createElement('kbd')
+                keybd.className = 'key1' //黑键盘样式
                 keybd.textContent = row[index2]
                 // 按钮作为儿子放入keybd
                 buttonX = document.createElement('button')
                 buttonX.textContent = 'edit'
                 buttonX.id = row[index2]
+                if (hash[row[index2]]) {
+                    iconImg = document.createElement('img')
+                    iconImg.src = "http://" + hash[row[index2]] + "/favicon.ico"
+                } else {
+
+                }
+
                 // button被点击
                 buttonX.onclick = function (aaaa) {
                     // console.log(aaaa.target.id)
-                    key = aaaa.target.id // q w e r ...
+                    key = aaaa.target.id // target定位到button，id是q w e r ...
                     x = prompt('请输入更改后的网站')
                     hash[key] = x //hash变更
                     localStorage.setItem('zzz', JSON.stringify(hash))
                 }
                 keybd.appendChild(buttonX)
+                keybd.appendChild(iconImg)
+                //3个div放keybd
                 div1.appendChild(keybd)
                 index2 += 1
             }
@@ -96,7 +107,7 @@
             key = rrrr['key']
             website = hash[key]
             // location.href = 'http://' + website // 模拟用户在地址栏输入
-            window.open('http://' + website, '_blank')
+            window.open('https://' + website, '_blank')
         }
     </script>
 </body>

@@ -8,6 +8,11 @@ a {
     text-decoration: none;
 }
 
+body {
+    background: grey url(./img/back-wall5.jpg) no-repeat center center;
+    background-size: cover;
+}
+
 kbd {
     border: 1px solid red;
     width: 4em;
@@ -22,7 +27,7 @@ kbd>button {
     right: 0;
     bottom: 0;
     display: none;
-    font-size: 10px;
+    font-size: 9px;
 }
 
 kbd:hover>button {
@@ -31,16 +36,50 @@ kbd:hover>button {
 
 main {
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 #keyContainer {
     display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
 }
 
 #keyContainer>div:nth-child(2) {
-    margin-left: 2em;
+    margin-left: -22px;
 }
 
 #keyContainer>div:nth-child(3) {
-    margin-left: 3em;
+    margin-left: -102px;
+}
+
+.key1 {
+    width: 50px;
+    height: 40px;
+    background: linear-gradient(to bottom, #111111 0%, #292929 100%);
+    border: 1px solid #373737;
+    border-radius: 7px;
+    color: #C5C5C5;
+    box-shadow: 0 0 0 1px #1A1B1C, 0 0 0 1px #1F2020, 0 1px 0 1px #080808;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-family: Helvetica;
+}
+
+.row {
+    margin: 13px;
+}
+
+.row .key1 {
+    margin: 0 10px;
+}
+
+.key1 img {
+    width: 16px;
+    height: 16px
 }
