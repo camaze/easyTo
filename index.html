@@ -14,143 +14,187 @@
     <footer></footer>
     <script>
         // 1. 初始化数据
-        var keys = {
-            '0': {
-                0: 'q',
-                1: 'w',
-                2: 'e',
-                3: 'r',
-                4: 't',
-                5: 'y',
-                6: 'u',
-                7: 'i',
-                8: 'o',
-                9: 'p',
-                'length': 10
-            },
-            '1': {
-                0: 'a',
-                1: 's',
-                2: 'd',
-                3: 'f',
-                4: 'g',
-                5: 'h',
-                6: 'j',
-                7: 'k',
-                8: 'l',
-                length: 9
-            },
-            '2': {
-                0: 'z',
-                1: 'x',
-                2: 'c',
-                3: 'v',
-                4: 'b',
-                5: 'n',
-                6: 'm',
-                length: 7
-            },
-            length: 3
-        }
-        var hash = {
-            'q': 'www.qq.com',
-            'w': 'weibo.com',
-            'i': 'iqiyi.com',
-            'a': 'www.acfun.cn',
-            'z': 'zhihu.com',
-            'h': 'www.hupu.com',
-            'b': 'www.bilibili.com',
-            'm': 'www.mcdonalds.com.cn',
-            'u': 'uc.com'
-        }
-        // 取出localStorage中存在的hash(如果有)
-        var hashInLocalStorage = getFromLocalStorage('zzz')
-        if (hashInLocalStorage) {
-            hash = hashInLocalStorage
-        }
-
-        function tag(tagName, attributes) {
-            var element = document.createElement(tagName)
-            for (var key in attributes) { //key 为 className，id，textContent
-                element.key = attributes.key
-            }
-            return element
-        }
+        var hashA = init()
+        var keys = hashA.keys
+        var hash = hashA['hash']
 
         // 2. 生成键盘
         // 遍历keys， 生成kbd标签
-        var index = 0
-        while (index < keys['length']) {
-            var div1 = tag('div') //三行
-            div1.className = 'row'
-            var row = keys[index]
-            var index2 = 0
-            while (index2 < row['length']) {
-                var keybd = tag('kbd')
-                var span = tag('span', {
-                    className: 'spanText',
-                    textContent: row[index2]
-                })
-                span.textContent = row[index2]
-                span.className = 'spanText'
-                keybd.appendChild(span)
-                // keybd.textContent = row[index2]
-                keybd.className = 'key1' //黑键盘样式
-                // 按钮作为儿子放入keybd
-                var buttonX = tag('button')
-                buttonX.textContent = 'edit'
-                buttonX.id = row[index2]
-                // button被点击编辑新网址
-                buttonX.onclick = function (aaaa) {
-                    var button2 = aaaa.target
-                    // key = aaaa.target.id // target定位到button，id是q w e r ...
-                    var key = button2.id
-                    // console.log(button2.nextSibling)
-                    var imgAfterEdit = button2.nextSibling
-                    var x = prompt('请输入更改后的网站')
-                    hash[key] = x //hash变更
-                    localStorage.setItem('zzz', JSON.stringify(hash))
-                    // 新图标，随输入的网站相关
-                    imgAfterEdit.src = 'http://' + x + '/favicon.ico'
-                    imgAfterEdit.onerror = function (xxx) {
-                        // console.log('error here!!!!!!!!!')
-                        // console.log(xxx)
-                        xxx.target.src = './img/13.png'
-                    }
-                }
-                var iconImg = tag('img')
-                if (hash[row[index2]]) {
-                    iconImg.src = 'http://' + hash[row[index2]] + '/favicon.ico'
-                } else {
-                    iconImg.src = './img/13.png'
-                }
+        generateKeyboard(keys, hash)
 
-                iconImg.onerror = function (xxx) {
-                    // console.log('error here!!!!!!!!!')
-                    // console.log(xxx)
-                    xxx.target.src = './img/13.png'
-                }
-                keybd.appendChild(buttonX)
-                keybd.appendChild(iconImg)
-                //3个div放keybd
-                div1.appendChild(keybd)
-                index2 += 1
-            }
-            keyContainer.appendChild(div1)
-            index += 1
-        }
-
-        // 3. 监听键盘
+        // 3. 监听用户行为
         // 按键后生成新页面
-        document.onkeypress = function (rrrr) {
-            var key = rrrr['key']
-            var website = hash[key]
-            // location.href = 'http://' + website // 模拟用户在地址栏输入
-            window.open('https://' + website, '_blank')
+        listenToUser(hash)
+
+        // 以下为工具函数
+        function init() {
+            var keys = {
+                '0': {
+                    0: 'q',
+                    1: 'w',
+                    2: 'e',
+                    3: 'r',
+                    4: 't',
+                    5: 'y',
+                    6: 'u',
+                    7: 'i',
+                    8: 'o',
+                    9: 'p',
+                    'length': 10
+                },
+                '1': {
+                    0: 'a',
+                    1: 's',
+                    2: 'd',
+                    3: 'f',
+                    4: 'g',
+                    5: 'h',
+                    6: 'j',
+                    7: 'k',
+                    8: 'l',
+                    length: 9
+                },
+                '2': {
+                    0: 'z',
+                    1: 'x',
+                    2: 'c',
+                    3: 'v',
+                    4: 'b',
+                    5: 'n',
+                    6: 'm',
+                    length: 7
+                },
+                length: 3
+            }
+            var hash = {
+                'q': 'www.qq.com',
+                'w': 'weibo.com',
+                'i': 'iqiyi.com',
+                'a': 'www.acfun.cn',
+                'z': 'zhihu.com',
+                'h': 'www.hupu.com',
+                'b': 'www.bilibili.com',
+                'm': 'www.mcdonalds.com.cn',
+                'u': 'uc.com',
+                'k': '36kr.com',
+                'j': 'juejin.im'
+            }
+            // 取出localStorage中存在的hash(如果有)
+            var hashInLocalStorage = getFromLocalStorage('zzz')
+            if (hashInLocalStorage) {
+                hash = hashInLocalStorage
+            }
+            return {
+                'keys': keys, // hash表 不加''变字符串也是字符串
+                hash: hash
+            }
         }
 
         function getFromLocalStorage(name) {
             return JSON.parse(localStorage.getItem('zzz') || 'null')
+        }
+
+        function generateKeyboard(keys, hash) {
+            for (var index = 0; index < keys['length']; index++) {
+                var div1 = tag('div', {
+                    className: 'row' //三行
+                })
+                var row = keys[index]
+                var index2 = 0
+                for (var index2 = 0; index2 < row['length']; index2++) {
+
+                    var span = tag('span', {
+                        className: 'spanText',
+                        textContent: row[index2]
+                    })
+
+                    var keybd = tag('kbd', {
+                        className: 'key1' //黑键盘样式
+                    })
+
+                    // 按钮作为儿子放入keybd
+                    keybd.appendChild(span)
+
+                    var buttonX = tag('button', {
+                        textContent: 'edit',
+                        id: row[index2]
+                    })
+
+                    var buttonX = createButton(row[index2])
+                    var iconImg = createImg(hash[row[index2]])
+
+
+                    keybd.appendChild(buttonX)
+                    keybd.appendChild(iconImg)
+                    //共有3个div，用于放keybd
+                    div1.appendChild(keybd)
+                }
+                keyContainer.appendChild(div1)
+            }
+        }
+
+        //创建只包含className，id，textContent，不含其他功能的标签
+        function tag(tagName, attributes) {
+            var element = document.createElement(tagName)
+            for (var key in attributes) { //key 为 className，id，textContent
+                console.log(key)
+                element[key] = attributes[key]
+                // element.key = attributes[key]    // 报错 原因不知，可能是目前没有该属性，用.索引不到内存地址？但[]却可以添加。
+            }
+            return element
+        }
+
+        function createButton(id) {
+            var buttonX = tag('button', {
+                textContent: 'edit',
+                id: id
+            })
+            // button被点击编辑新网址
+            buttonX.onclick = function (aaaa) {
+                var button2 = aaaa.target
+                // key = aaaa.target.id // target定位到button，id是q w e r ...
+                var key = button2.id
+                // console.log(button2.nextSibling)
+                var imgAfterEdit = button2.nextSibling
+                var x = prompt('请输入更改后的网站')
+                hash[key] = x //hash变更
+                localStorage.setItem('zzz', JSON.stringify(hash))
+                // 新图标，随输入的网站相关
+                imgAfterEdit.src = 'http://' + x + '/favicon.ico'
+                imgAfterEdit.onerror = function (xxx) {
+                    // console.log('error here!!!!!!!!!')
+                    // console.log(xxx)
+                    xxx.target.src = './img/13.png'
+                }
+            }
+            return buttonX
+        }
+
+        function createImg(domain) {
+            // 编辑后生成新图片
+            var iconImg = tag('img')
+            if (domain) {
+                iconImg.src = 'http://' + domain + '/favicon.ico'
+            } else {
+                iconImg.src = './img/13.png'
+            }
+
+            // 新图生成错误处理
+            iconImg.onerror = function (xxx) {
+                // console.log('error here!!!!!!!!!')
+                // console.log(xxx)
+                xxx.target.src = './img/13.png'
+            }
+            return iconImg
+        }
+
+        function listenToUser(hash) {
+            document.onkeypress = function (rrrr) {
+                var key = rrrr['key']
+                var website = hash[key]
+                // location.href = 'http://' + website // 模拟用户在地址栏输入
+                window.open('https://' + website, '_blank')
+            }
         }
     </script>
 </body>
