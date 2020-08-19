@@ -24,8 +24,8 @@ kbd {
 
 kbd>button {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 2px;
+    bottom: 2px;
     display: none;
     font-size: 9px;
 }
@@ -64,11 +64,12 @@ main {
     border-radius: 7px;
     color: #C5C5C5;
     box-shadow: 0 0 0 1px #1A1B1C, 0 0 0 1px #1F2020, 0 1px 0 1px #080808;
-    display: inline-flex;
+    /* display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     font-size: 16px;
     font-family: Helvetica;
+    position: relative;
 }
 
 .row {
@@ -81,5 +82,14 @@ main {
 
 .key1 img {
     width: 16px;
-    height: 16px
+    height: 16px;
+    position: absolute;
+    left: 4px;
+    bottom: 2px;
+}
+
+.key1 .spanText {
+    position: absolute;
+    left: 6px;
+    top: 2px;
 }
