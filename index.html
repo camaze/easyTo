@@ -77,7 +77,8 @@
                 'm': 'www.mcdonalds.com.cn',
                 'u': 'uc.com',
                 'k': '36kr.com',
-                'j': 'juejin.im'
+                'j': 'juejin.im',
+                'y': 'www.youku.com'
             }
             // 取出localStorage中存在的hash(如果有)
             var hashInLocalStorage = getFromLocalStorage('zzz')
@@ -139,7 +140,7 @@
             for (var key in attributes) { //key 为 className，id，textContent
                 console.log(key)
                 element[key] = attributes[key]
-                // element.key = attributes[key]    // 报错 原因不知，可能是目前没有该属性，用.索引不到内存地址？但[]却可以添加。
+                // element.key = attributes[key]    // 报错 原因不知，可能是目前没有该属性，用.索引不到内存地址？但[]却可以添加。应该是.key是hash中要有'key':xxx但是没有。
             }
             return element
         }
