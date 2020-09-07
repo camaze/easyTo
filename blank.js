@@ -61,3 +61,30 @@
 
 // const investigators = fileLines.reduce(splitLineReducer, []);
 // console.log(investigators);
+
+// var a = 1
+
+// function f1() {
+//     console.log('here111', a)
+//     var a = 2
+//     f4.call()
+// }
+
+// function f4() {
+//     console.log('heref4', a)
+// }
+
+// f1.call()
+// a = 4
+
+// console.log('hereeee', a)
+
+var b = 2;
+
+function bar() {
+    var b = 10; //通过LHS引用的最外层的b，并赋值，这不是声明
+    d = 4; // 全局，作为window的属性
+    console.log(b); // 10
+}
+bar();
+console.log(b); // 10
